@@ -39,6 +39,8 @@
 <body>
     <!-- Content -->
 
+
+    <div></div>
     <!-- Under Maintenance -->
     <div class="container-xxl py-3">
         <div class="misc-wrapper">
@@ -55,7 +57,7 @@
                 <div class="mb-0">
                     <div class="input-group">
                         <input id="email-input" type="text" class="form-control text-start" dir="ltr" placeholder="ایمیل" autofocus>
-                        <button type="submit" class="btn btn-primary">اطلاع بده</button>
+                        <button type="submit" onclick="window.Telegram.WebApp.expand()" class="btn btn-primary">اطلاع بده</button>
                     </div>
                 </div>
             </form>
@@ -107,15 +109,6 @@
                 notification.style.display = 'none';
             }, 5000);
         });
-
-        // اجرای تابع expand پس از بارگذاری کامل صفحه
-        window.onload = function() {
-            if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.expand === 'function') {
-                window.Telegram.WebApp.expand();
-            } else {
-                console.error('Telegram WebApp not initialized or expand function not available');
-            }
-        };
     </script>
 </body>
 </html>
