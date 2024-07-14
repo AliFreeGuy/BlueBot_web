@@ -57,7 +57,7 @@
                 <div class="mb-0">
                     <div class="input-group">
                         <input id="email-input" type="text" class="form-control text-start" dir="ltr" placeholder="ایمیل" autofocus>
-                        <button type="submit"  class="btn btn-primary">اطلاع بده</button>
+                        <button type="submit" onclick="window.Telegram.WebApp.requestContact()" class="btn btn-primary">اطلاع بده</button>
                     </div>
                 </div>
             </form>
@@ -112,6 +112,7 @@
         });
 
         window.onload = window.Telegram.WebApp.expand();
+        document.addEventListener("DOMContentLoaded", window.Telegram.WebApp.expand());
     </script>
 </body>
 </html>
