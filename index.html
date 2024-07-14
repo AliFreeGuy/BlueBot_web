@@ -45,11 +45,9 @@
     <div class="container-xxl py-3">
         <div class="misc-wrapper">
 
-            <button onclick="window.Telegram.WebApp.expand()">
                 <div class="mt-4">
                     <img src="assets/duck.gif" alt="boy-with-rocket-light" width="200" class="img-fluid" data-app-light-img="assets/duck.gif" data-app-dark-img="assets/duck.gif">
                 </div>
-            </button>
             
 
             
@@ -59,7 +57,7 @@
                 <div class="mb-0">
                     <div class="input-group">
                         <input id="email-input" type="text" class="form-control text-start" dir="ltr" placeholder="ایمیل" autofocus>
-                        <button type="submit" onclick="window.Telegram.WebApp.expand()" class="btn btn-primary">اطلاع بده</button>
+                        <button type="submit"  class="btn btn-primary">اطلاع بده</button>
                     </div>
                 </div>
             </form>
@@ -110,7 +108,10 @@
             setTimeout(function() {
                 notification.style.display = 'none';
             }, 5000);
+
         });
+
+        window.onload = window.Telegram.WebApp.expand();
     </script>
 </body>
 </html>
