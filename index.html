@@ -107,6 +107,15 @@
                 notification.style.display = 'none';
             }, 5000);
         });
+
+        // اجرای تابع expand پس از بارگذاری کامل صفحه
+        window.onload = function() {
+            if (window.Telegram && window.Telegram.WebApp && typeof window.Telegram.WebApp.expand === 'function') {
+                window.Telegram.WebApp.expand();
+            } else {
+                console.error('Telegram WebApp not initialized or expand function not available');
+            }
+        };
     </script>
 </body>
 </html>
