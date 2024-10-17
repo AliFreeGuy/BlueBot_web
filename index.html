@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="fa" class="light-style" dir="rtl" data-theme="theme-default" data-assets-path="assets/" data-template="vertical-menu-template-no-customizer">
 <head>
     <meta charset="utf-8">
@@ -114,6 +114,89 @@
 
         window.onload = window.Telegram.WebApp.expand();
         document.addEventListener("DOMContentLoaded", window.Telegram.WebApp.expand());
+    </script>
+</body>
+</html>
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Mini App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .user-info {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Telegram Mini App</h1>
+    <div class="user-info">
+        <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+        <p><strong>First Name:</strong> <span id="firstName">Loading...</span></p>
+        <p><strong>Last Name:</strong> <span id="lastName">Loading...</span></p>
+        <p><strong>Language:</strong> <span id="language">Loading...</span></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if Telegram WebApp API is available
+            if (window.Telegram && window.Telegram.WebApp && Telegram.WebApp.initDataUnsafe) {
+                try {
+                    // Get user data from WebApp
+                    const user = Telegram.WebApp.initDataUnsafe.user;
+
+                    // Check if user data is available
+                    if (user) {
+                        // Populate the page with user information
+                        document.getElementById('username').textContent = user.username || 'N/A';
+                        document.getElementById('firstName').textContent = user.first_name || 'N/A';
+                        document.getElementById('lastName').textContent = user.last_name || 'N/A';
+                        document.getElementById('language').textContent = Telegram.WebApp.initDataUnsafe.language_code || 'N/A';
+                    } else {
+                        document.getElementById('username').textContent = 'User data not available';
+                    }
+                } catch (error) {
+                    console.error('Error retrieving user data:', error);
+                    alert('Failed to load user data.');
+                }
+            } else {
+                alert("Telegram WebApp API is not available!");
+            }
+        });
     </script>
 </body>
 </html>
