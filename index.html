@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blubot | بلوبات</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdn.font-face.ir/css/vazirmatn.css" />
+    
+    <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
+    
+    <style>
+        /* --- Color Palette Variables (Telegram Inspired) --- */
+        :root {
+            /* Default to Night Mode */
+            --bg-primary: #18222d;
+            --bg-secondary: #243447;
+            --bg-tertiary: #202b39;
+            --text-primary: #ffffff;
+            --text-secondary: #a3b6c9;
+            --accent-primary: #818cf8; /* Indigo-400 */
+            --accent-secondary: #6366f1; /* Indigo-500 */
+            --telegram-blue: #37a5e4;
+            --switcher-bg: #2b3a4c;
+            --switcher-btn-bg: #4f46e5;
+            --icon-filter: invert(100%);
+        }
+
+        [data-theme="day"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f0f4f7;
+            --bg-tertiary: #e3ebee;
+            --text-primary: #000000;
+            --text-secondary: #6b7b8c;
+            --accent-primary: #4a54e8;
+            --accent-secondary: #3b45c6;
+            --telegram-blue: #0088cc;
+            --switcher-bg: #e3ebee;
+            --switcher-btn-bg: #4a54e8;
+            --icon-filter: invert(0%);
+        }
+
+        /* General Styles */
+        body {
+            font-family: sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        .font-vazir, .font-vazir h1, .font-vazir h2 {
+            font-family: Vazirmatn, sans-serif;
+        }
+        #fa-content { direction: rtl; }
+
+        /* --- New Highlight Styles --- */
+        .highlight-blubot {
+            color: var(--telegram-blue);
+            position: relative;
+            display: inline-block;
+        }
+        .highlight-blubot::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background-color: var(--telegram-blue);
+            bottom: -5px;
+            left: 0;
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease-out;
+        }
+        .highlight-blubot.drawn::after { transform: scaleX(1); }
+
+        /* --- Content & Language Switcher Styles --- */
+        .content-container { display: grid; grid-template-areas: "stack"; }
+        .content-container > * { grid-area: stack; transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; }
+        .content-hidden { opacity: 0; transform: translateY(10px); pointer-events: none; }
+        .content-visible { opacity: 1; transform: translateY(0); }
+        .lang-switcher { position: relative; display: flex; background-color: var(--switcher-bg); transition: background-color 0.4s ease; }
+        .lang-slider { position: absolute; top: 0; left: 0; height: 100%; width: 50%; background-color: var(--switcher-btn-bg); border-radius: 0.375rem; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), background-color 0.4s ease; }
+        .lang-switcher[data-lang="en"] .lang-slider { transform: translateX(100%); }
+        .lang-btn { z-index: 10; }
+        .ti-cursor { color: var(--accent-primary); }
+
+        /* --- Custom Element Styles using Variables --- */
+        .main-card { background-color: var(--bg-secondary); transition: background-color 0.4s ease; }
+        .card-text-primary { color: var(--text-primary); transition: color 0.4s ease; }
+        .card-text-secondary { color: var(--text-secondary); transition: color 0.4s ease; }
+        .card-inner { background-color: var(--bg-tertiary); transition: background-color 0.4s ease; }
+        .contact-accent { color: var(--accent-primary); transition: color 0.4s ease; }
+        .contact-link:hover { color: var(--accent-secondary); transition: color 0.4s ease; }
+
+        /* --- Theme Switcher Button --- */
+        #theme-switcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: background-color 0.4s ease, transform 0.2s ease;
+        }
+        #theme-switcher:hover { transform: scale(1.1); }
+        #theme-switcher .icon {
+            width: 24px;
+            height: 24px;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        /* --- Icons --- */
+        #sun-icon {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" /></svg>');
+        }
+        #moon-icon {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></svg>');
+        }
+        /* Hide one icon based on theme */
+        [data-theme="day"] #sun-icon { opacity: 0; transform: rotate(-90deg) scale(0); }
+        [data-theme="night"] #sun-icon { opacity: 1; transform: rotate(0) scale(1); }
+        [data-theme="day"] #moon-icon { opacity: 1; transform: rotate(0) scale(1); }
+        [data-theme="night"] #moon-icon { opacity: 0; transform: rotate(90deg) scale(0); }
+
+    </style>
+</head>
+<body data-theme="night"> <button id="theme-switcher" aria-label="Toggle theme">
+        <div id="sun-icon" class="icon"></div>
+        <div id="moon-icon" class="icon" style="position: absolute;"></div>
+    </button>
+
+    <main class="flex flex-col items-center justify-start md:justify-center w-full min-h-screen p-4">
+
+        <div id="lang-switcher" data-lang="fa" class="lang-switcher p-1 rounded-lg border border-gray-600 my-8">
+            <div class="lang-slider"></div>
+            <button id="fa-btn" class="lang-btn px-4 py-1 text-sm rounded-md transition-colors card-text-primary">فارسی</button>
+            <button id="en-btn" class="lang-btn px-4 py-1 text-sm rounded-md transition-colors card-text-primary">English</button>
+        </div>
+
+        <div class="main-card w-full max-w-2xl shadow-2xl rounded-xl p-6 sm:p-8 text-center mb-8">
+            <img src="blu.gif" alt="Blubot Robot" class="w-40 h-40 sm:w-48 sm:h-48 mx-auto mb-6 rounded-full">
+
+            <div class="content-container">
+                <div id="fa-content" class="content-visible font-vazir">
+                    <h1 id="fa-title" class="card-text-primary text-3xl sm:text-4xl font-bold mb-4 h-28 sm:h-24"></h1>
+                    <p class="text-base sm:text-lg card-text-secondary leading-relaxed mb-8">
+                        بلوبات راه حل هوشمند شما برای خودکارسازی فرآیندها و افزایش بهره‌وری است. ما ربات‌های سفارشی و پیشرفته‌ای برای پلتفرم‌های مختلف مانند تلگرام، وب و دیسکورد طراحی و پیاده‌سازی می‌کنیم تا به شما در رسیدن به اهدافتان کمک کنیم.
+                    </p>
+                    <div class="card-inner p-4 sm:p-6 rounded-lg">
+                        <h2 class="text-xl sm:text-2xl font-semibold mb-4 card-text-primary">سفارش پروژه</h2>
+                        <p class="card-text-secondary text-sm sm:text-base">
+                            برای مشاوره رایگان و ثبت سفارش پروژه اختصاصی خود، می‌توانید از طریق راه‌های ارتباطی زیر با ما در تماس باشید:
+                        </p>
+                        <div class="mt-4 text-lg sm:text-xl space-y-3">
+                            <p>
+                                <strong class="font-semibold contact-accent">تلگرام:</strong>
+                                <a href="https://t.me/AliFreeGuy" target="_blank" class="contact-link card-text-primary">@AliFreeGuy</a>
+                            </p>
+                            <p>
+                                <strong class="font-semibold contact-accent">شماره تماس:</strong>
+                                <a href="tel:+989222303707" dir="ltr" class="contact-link card-text-primary">+98 922 230 3707</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="en-content" class="content-hidden">
+                    <h1 id="en-title" class="card-text-primary text-3xl sm:text-4xl font-bold mb-4 h-28 sm:h-24"></h1>
+                    <p class="text-base sm:text-lg card-text-secondary leading-relaxed mb-8">
+                        Blubot is your smart solution for automating processes and increasing productivity. We design and implement custom, advanced bots for various platforms like Telegram, Web, and Discord to help you achieve your goals.
+                    </p>
+                    <div class="card-inner p-4 sm:p-6 rounded-lg">
+                        <h2 class="text-xl sm:text-2xl font-semibold mb-4 card-text-primary">Order a Project</h2>
+                        <p class="card-text-secondary text-sm sm:text-base">
+                            For a free consultation and to order your custom project, you can contact us through the following channels:
+                        </p>
+                        <div class="mt-4 text-lg sm:text-xl space-y-3">
+                            <p>
+                                <strong class="font-semibold contact-accent">Telegram:</strong>
+                                <a href="https://t.me/AliFreeGuy" target="_blank" class="contact-link card-text-primary">@AliFreeGuy</a>
+                            </p>
+                            <p>
+                                <strong class="font-semibold contact-accent">Phone:</strong>
+                                <a href="tel:+989222303707" class="contact-link card-text-primary">+98 922 230 3707</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- Existing Language Switcher Logic ---
+        const langSwitcher = document.getElementById('lang-switcher');
+        const faBtn = document.getElementById('fa-btn');
+        const enBtn = document.getElementById('en-btn');
+        const faContent = document.getElementById('fa-content');
+        const enContent = document.getElementById('en-content');
+        let typeitInstance = null;
+
+        function startTypingAnimation(elementId, text) {
+            if (typeitInstance) {
+                typeitInstance.destroy();
+            }
+            const el = document.getElementById(elementId);
+            el.innerHTML = '';
+            typeitInstance = new TypeIt(el, {
+                speed: 75,
+                waitUntilVisible: true,
+                cursorChar: '_',
+                afterComplete: async (instance) => {
+                    const highlightEl = instance.el.querySelector('.highlight-blubot');
+                    if (highlightEl) {
+                        highlightEl.classList.add('drawn');
+                    }
+                    instance.options.cursor = true;
+                    instance.toggleFreeze(true);
+                },
+            })
+            .type(text, { instant: false })
+            .go();
+        }
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            langSwitcher.dataset.lang = lang;
+            if (lang === 'fa') {
+                faContent.classList.remove('content-hidden');
+                faContent.classList.add('content-visible');
+                enContent.classList.add('content-hidden');
+                enContent.classList.remove('content-visible');
+                startTypingAnimation('fa-title', 'به <span class="highlight-blubot">بلوبات</span> خوش آمدید');
+            } else {
+                enContent.classList.remove('content-hidden');
+                enContent.classList.add('content-visible');
+                faContent.classList.add('content-hidden');
+                faContent.classList.remove('content-visible');
+                startTypingAnimation('en-title', 'Welcome to <span class="highlight-blubot">Blubot</span>');
+            }
+        }
+
+        faBtn.addEventListener('click', () => setLanguage('fa'));
+        enBtn.addEventListener('click', () => setLanguage('en'));
+        
+        // --- NEW: Theme Switcher Logic ---
+        const themeSwitcher = document.getElementById('theme-switcher');
+        const body = document.body;
+
+        // Function to apply the saved theme on page load
+        function applyInitialTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'night'; // Default to night
+            body.dataset.theme = savedTheme;
+        }
+
+        // Toggle theme and save preference
+        themeSwitcher.addEventListener('click', () => {
+            const currentTheme = body.dataset.theme;
+            const newTheme = currentTheme === 'day' ? 'night' : 'day';
+            body.dataset.theme = newTheme;
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Initialize language and theme when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            applyInitialTheme();
+            setLanguage('fa'); // Your default language
+        });
+
+    </script>
+</body>
+</html>
