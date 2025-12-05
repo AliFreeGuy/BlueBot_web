@@ -1,290 +1,496 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blubot | بلوبات</title>
+    <title>بلوبات | طراحی ربات تلگرام و توسعه وب‌سایت حرفه‌ای</title>
+    
+    <meta name="description" content="بلوبات (Blubot)؛ مرجع تخصصی طراحی ربات‌های پیشرفته تلگرام، وب‌سایت و وب‌اپلیکیشن. سفارش ساخت ربات فروشگاهی، مدیریتی و ابزارهای هوشمند.">
+    <meta name="keywords" content="ساخت ربات تلگرام, طراحی سایت, برنامه نویسی وب, ربات فروشگاهی, بلوبات, توسعه دهنده تلگرام">
+    <meta name="author" content="Blubot Team">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://blubot.net/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://blubot.net/">
+    <meta property="og:title" content="بلوبات | طراحی ربات تلگرام و وب‌سایت">
+    <meta property="og:description" content="ارائه راهکارهای نوین در توسعه ربات‌های تلگرام و طراحی وب‌سایت‌های حرفه‌ای.">
+    <meta property="og:image" content="static/img/og-image.jpg">
+    <meta property="og:locale" content="fa_IR">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="بلوبات | طراحی ربات تلگرام و وب‌سایت">
+    <meta name="twitter:description" content="توسعه حرفه‌ای ربات‌های تلگرام و وب‌سایت‌های مدرن با بلوبات.">
+    <meta name="twitter:image" content="static/img/og-image.jpg">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Vazirmatn:wght@400;600;800;900&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <link rel="stylesheet" href="https://cdn.font-face.ir/css/vazirmatn.css" />
-    
-    <script src="https://unpkg.com/typeit@8.7.1/dist/index.umd.js"></script>
-    
-    <style>
-        /* --- Color Palette Variables (Telegram Inspired) --- */
-        :root {
-            /* Default to Night Mode */
-            --bg-primary: #18222d;
-            --bg-secondary: #243447;
-            --bg-tertiary: #202b39;
-            --text-primary: #ffffff;
-            --text-secondary: #a3b6c9;
-            --accent-primary: #818cf8; /* Indigo-400 */
-            --accent-secondary: #6366f1; /* Indigo-500 */
-            --telegram-blue: #37a5e4;
-            --switcher-bg: #2b3a4c;
-            --switcher-btn-bg: #4f46e5;
-            --icon-filter: invert(100%);
-        }
-
-        [data-theme="day"] {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f0f4f7;
-            --bg-tertiary: #e3ebee;
-            --text-primary: #000000;
-            --text-secondary: #6b7b8c;
-            --accent-primary: #4a54e8;
-            --accent-secondary: #3b45c6;
-            --telegram-blue: #0088cc;
-            --switcher-bg: #e3ebee;
-            --switcher-btn-bg: #4a54e8;
-            --icon-filter: invert(0%);
-        }
-
-        /* General Styles */
-        body {
-            font-family: sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            transition: background-color 0.4s ease, color 0.4s ease;
-        }
-        .font-vazir, .font-vazir h1, .font-vazir h2 {
-            font-family: Vazirmatn, sans-serif;
-        }
-        #fa-content { direction: rtl; }
-
-        /* --- New Highlight Styles --- */
-        .highlight-blubot {
-            color: var(--telegram-blue);
-            position: relative;
-            display: inline-block;
-        }
-        .highlight-blubot::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 4px;
-            background-color: var(--telegram-blue);
-            bottom: -5px;
-            left: 0;
-            border-radius: 2px;
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s ease-out;
-        }
-        .highlight-blubot.drawn::after { transform: scaleX(1); }
-
-        /* --- Content & Language Switcher Styles --- */
-        .content-container { display: grid; grid-template-areas: "stack"; }
-        .content-container > * { grid-area: stack; transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out; }
-        .content-hidden { opacity: 0; transform: translateY(10px); pointer-events: none; }
-        .content-visible { opacity: 1; transform: translateY(0); }
-        .lang-switcher { position: relative; display: flex; background-color: var(--switcher-bg); transition: background-color 0.4s ease; }
-        .lang-slider { position: absolute; top: 0; left: 0; height: 100%; width: 50%; background-color: var(--switcher-btn-bg); border-radius: 0.375rem; transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), background-color 0.4s ease; }
-        .lang-switcher[data-lang="en"] .lang-slider { transform: translateX(100%); }
-        .lang-btn { z-index: 10; }
-        .ti-cursor { color: var(--accent-primary); }
-
-        /* --- Custom Element Styles using Variables --- */
-        .main-card { background-color: var(--bg-secondary); transition: background-color 0.4s ease; }
-        .card-text-primary { color: var(--text-primary); transition: color 0.4s ease; }
-        .card-text-secondary { color: var(--text-secondary); transition: color 0.4s ease; }
-        .card-inner { background-color: var(--bg-tertiary); transition: background-color 0.4s ease; }
-        .contact-accent { color: var(--accent-primary); transition: color 0.4s ease; }
-        .contact-link:hover { color: var(--accent-secondary); transition: color 0.4s ease; }
-
-        /* --- Theme Switcher Button --- */
-        #theme-switcher {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--bg-tertiary);
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            transition: background-color 0.4s ease, transform 0.2s ease;
-        }
-        #theme-switcher:hover { transform: scale(1.1); }
-        #theme-switcher .icon {
-            width: 24px;
-            height: 24px;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-        }
-        /* --- Icons --- */
-        #sun-icon {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" /></svg>');
-        }
-        #moon-icon {
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" /></svg>');
-        }
-        /* Hide one icon based on theme */
-        [data-theme="day"] #sun-icon { opacity: 0; transform: rotate(-90deg) scale(0); }
-        [data-theme="night"] #sun-icon { opacity: 1; transform: rotate(0) scale(1); }
-        [data-theme="day"] #moon-icon { opacity: 1; transform: rotate(0) scale(1); }
-        [data-theme="night"] #moon-icon { opacity: 0; transform: rotate(90deg) scale(0); }
-
-    </style>
-</head>
-<body data-theme="night"> <button id="theme-switcher" aria-label="Toggle theme">
-        <div id="sun-icon" class="icon"></div>
-        <div id="moon-icon" class="icon" style="position: absolute;"></div>
-    </button>
-
-    <main class="flex flex-col items-center justify-start md:justify-center w-full min-h-screen p-4">
-
-        <div id="lang-switcher" data-lang="fa" class="lang-switcher p-1 rounded-lg border border-gray-600 my-8">
-            <div class="lang-slider"></div>
-            <button id="fa-btn" class="lang-btn px-4 py-1 text-sm rounded-md transition-colors card-text-primary">فارسی</button>
-            <button id="en-btn" class="lang-btn px-4 py-1 text-sm rounded-md transition-colors card-text-primary">English</button>
-        </div>
-
-        <div class="main-card w-full max-w-2xl shadow-2xl rounded-xl p-6 sm:p-8 text-center mb-8">
-            <img src="blu.gif" alt="Blubot Robot" class="w-40 h-40 sm:w-48 sm:h-48 mx-auto mb-6 rounded-full">
-
-            <div class="content-container">
-                <div id="fa-content" class="content-visible font-vazir">
-                    <h1 id="fa-title" class="card-text-primary text-3xl sm:text-4xl font-bold mb-4 h-28 sm:h-24"></h1>
-                    <p class="text-base sm:text-lg card-text-secondary leading-relaxed mb-8">
-                        بلوبات راه حل هوشمند شما برای خودکارسازی فرآیندها و افزایش بهره‌وری است. ما ربات‌های سفارشی و پیشرفته‌ای برای پلتفرم‌های مختلف مانند تلگرام، وب و دیسکورد طراحی و پیاده‌سازی می‌کنیم تا به شما در رسیدن به اهدافتان کمک کنیم.
-                    </p>
-                    <div class="card-inner p-4 sm:p-6 rounded-lg">
-                        <h2 class="text-xl sm:text-2xl font-semibold mb-4 card-text-primary">سفارش پروژه</h2>
-                        <p class="card-text-secondary text-sm sm:text-base">
-                            برای مشاوره رایگان و ثبت سفارش پروژه اختصاصی خود، می‌توانید از طریق راه‌های ارتباطی زیر با ما در تماس باشید:
-                        </p>
-                        <div class="mt-4 text-lg sm:text-xl space-y-3">
-                            <p>
-                                <strong class="font-semibold contact-accent">تلگرام:</strong>
-                                <a href="https://t.me/AliFreeGuy" target="_blank" class="contact-link card-text-primary">@AliFreeGuy</a>
-                            </p>
-                            <p>
-                                <strong class="font-semibold contact-accent">کانال اطلاع رسانی:</strong>
-                                <a href="https://t.me/BluBots" target="_blank" class="contact-link card-text-primary">@BluBots</a>
-                            </p>
-                            <p>
-                                <strong class="font-semibold contact-accent">شماره تماس:</strong>
-                                <a href="tel:+989222303707" dir="ltr" class="contact-link card-text-primary">+98 922 230 3707</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="en-content" class="content-hidden">
-                    <h1 id="en-title" class="card-text-primary text-3xl sm:text-4xl font-bold mb-4 h-28 sm:h-24"></h1>
-                    <p class="text-base sm:text-lg card-text-secondary leading-relaxed mb-8">
-                        Blubot is your smart solution for automating processes and increasing productivity. We design and implement custom, advanced bots for various platforms like Telegram, Web, and Discord to help you achieve your goals.
-                    </p>
-                    <div class="card-inner p-4 sm:p-6 rounded-lg">
-                        <h2 class="text-xl sm:text-2xl font-semibold mb-4 card-text-primary">Order a Project</h2>
-                        <p class="card-text-secondary text-sm sm:text-base">
-                            For a free consultation and to order your custom project, you can contact us through the following channels:
-                        </p>
-                        <div class="mt-4 text-lg sm:text-xl space-y-3">
-                            <p>
-                                <strong class="font-semibold contact-accent">Telegram:</strong>
-                                <a href="https://t.me/AliFreeGuy" target="_blank" class="contact-link card-text-primary">@AliFreeGuy</a>
-                            </p>
-                            <p>
-                                <strong class="font-semibold contact-accent">Channel:</strong>
-                                <a href="https://t.me/BluBots" target="_blank" class="contact-link card-text-primary">@BluBots</a>
-                            </p>
-                            
-                            <p>
-                                <strong class="font-semibold contact-accent">Phone:</strong>
-                                <a href="tel:+989222303707" class="contact-link card-text-primary">+98 922 230 3707</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
-        // --- Existing Language Switcher Logic ---
-        const langSwitcher = document.getElementById('lang-switcher');
-        const faBtn = document.getElementById('fa-btn');
-        const enBtn = document.getElementById('en-btn');
-        const faContent = document.getElementById('fa-content');
-        const enContent = document.getElementById('en-content');
-        let typeitInstance = null;
-
-        function startTypingAnimation(elementId, text) {
-            if (typeitInstance) {
-                typeitInstance.destroy();
-            }
-            const el = document.getElementById(elementId);
-            el.innerHTML = '';
-            typeitInstance = new TypeIt(el, {
-                speed: 75,
-                waitUntilVisible: true,
-                cursorChar: '_',
-                afterComplete: async (instance) => {
-                    const highlightEl = instance.el.querySelector('.highlight-blubot');
-                    if (highlightEl) {
-                        highlightEl.classList.add('drawn');
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: { black: '#050505', white: '#ffffff', brand: '#3b82f6' },
+                    fontFamily: { sans: ['Vazirmatn', 'Inter', 'sans-serif'] },
+                    animation: { 'typewriter': 'typewriter 3.5s steps(40) 1s 1 normal both, blinkTextCursor 500ms steps(40) infinite normal' },
+                    keyframes: {
+                        typewriter: { 'from': { width: '0' }, 'to': { width: '100%' } },
+                        blinkTextCursor: { 'from': { borderRightColor: 'rgba(255,255,255,.75)' }, 'to': { borderRightColor: 'transparent' } }
                     }
-                    instance.options.cursor = true;
-                    instance.toggleFreeze(true);
-                },
-            })
-            .type(text, { instant: false })
-            .go();
-        }
-
-        function setLanguage(lang) {
-            document.documentElement.lang = lang;
-            langSwitcher.dataset.lang = lang;
-            if (lang === 'fa') {
-                faContent.classList.remove('content-hidden');
-                faContent.classList.add('content-visible');
-                enContent.classList.add('content-hidden');
-                enContent.classList.remove('content-visible');
-                startTypingAnimation('fa-title', 'به <span class="highlight-blubot">بلوبات</span> خوش آمدید');
-            } else {
-                enContent.classList.remove('content-hidden');
-                enContent.classList.add('content-visible');
-                faContent.classList.add('content-hidden');
-                faContent.classList.remove('content-visible');
-                startTypingAnimation('en-title', 'Welcome to <span class="highlight-blubot">Blubot</span>');
+                }
             }
         }
+    </script>
 
-        faBtn.addEventListener('click', () => setLanguage('fa'));
-        enBtn.addEventListener('click', () => setLanguage('en'));
-        
-        // --- NEW: Theme Switcher Logic ---
-        const themeSwitcher = document.getElementById('theme-switcher');
-        const body = document.body;
+    <style>
+        body { background-color: #050505; color: #fff; overflow-x: hidden; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #fff; }
+        .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
+        .marquee-content { display: inline-flex; animation: marquee 40s linear infinite; }
+        .marquee-container:hover .marquee-content { animation-play-state: paused; }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .glass-effect { backdrop-filter: blur(12px); background: rgba(5, 5, 5, 0.7); border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .type-container { display: inline-block; overflow: hidden; white-space: nowrap; border-left: 2px solid white; padding-left: 5px; animation: typewriter 3.5s steps(30) 1s 1 normal both, blinkCursor 0.75s step-end infinite; }
+        [dir="ltr"] .type-container { border-left: none; border-right: 2px solid white; padding-left: 0; padding-right: 5px; }
+        @keyframes typewriter { from { width: 0; } to { width: 100%; } }
+        @keyframes blinkCursor { from, to { border-color: transparent; } 50% { border-color: white; } }
+    </style>
+</head>
+<body class="antialiased selection:bg-white selection:text-black">
 
-        // Function to apply the saved theme on page load
-        function applyInitialTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'night'; // Default to night
-            body.dataset.theme = savedTheme;
+    <nav class="fixed w-full z-50 top-0 glass-effect" dir="ltr">
+        <div class="max-w-7xl mx-auto px-4 py-3 md:py-4 flex flex-col md:flex-row items-center justify-between relative gap-3 md:gap-0 transition-all">
+            
+            <a href="#" class="text-xl md:text-2xl font-black tracking-tighter uppercase flex items-center gap-2 md:gap-3 z-20 hover:text-gray-300 transition-colors">
+                <i data-lucide="bot" class="w-6 h-6 md:w-7 md:h-7"></i>
+                Blubot
+            </a>
+            
+            <div class="flex items-center gap-5 md:gap-10 text-xs md:text-base font-bold md:absolute md:left-1/2 md:top-1/2 md:transform md:-translate-x-1/2 md:-translate-y-1/2 transition-all">
+                <a href="#home" class="hover:text-white text-gray-400 transition-colors nav-item whitespace-nowrap" data-key="home">خانه</a>
+                <a href="#services" class="hover:text-white text-gray-400 transition-colors nav-item whitespace-nowrap" data-key="services">خدمات</a>
+                <a href="#projects" class="hover:text-white text-gray-400 transition-colors nav-item whitespace-nowrap" data-key="projects">پروژه‌ها</a>
+                <a href="#contact" class="hover:text-white text-gray-400 transition-colors nav-item whitespace-nowrap" data-key="contact">تماس</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="min-h-screen flex items-center justify-center pt-28 md:pt-20 relative overflow-hidden bg-[#050505]">
+        <canvas id="galaxy-canvas" class="absolute inset-0 w-full h-full z-0 opacity-60"></canvas>
+        <div class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,transparent_0%,#050505_90%)] pointer-events-none"></div>
+
+        <div class="text-center z-10 px-4 max-w-5xl mx-auto fade-up flex flex-col items-center">
+            <div class="mb-6 md:mb-8 inline-flex items-center gap-3 border border-white/10 px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-md hover:bg-white/10 transition-colors scale-90 md:scale-100">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
+                <span class="text-xs font-mono text-gray-300 tracking-widest">SYSTEM ONLINE</span>
+            </div>
+            
+            <h1 class="text-3xl md:text-7xl font-black mb-6 tracking-tight leading-tight drop-shadow-2xl">
+                <span class="type-container" id="hero-heading-text">بلوبات در حال ظهور است.</span> <br/> 
+                <span class="text-gray-500 text-xl md:text-5xl block mt-4 font-extrabold" data-key="hero_subtitle">ما استانداردهای دیجیتال را بازتعریف می‌کنیم.</span>
+            </h1>
+            
+            <p class="text-base md:text-xl text-gray-400 mb-10 max-w-2xl mx-auto hero-desc leading-7 md:leading-8" data-key="hero_desc">
+                پلتفرم بلوبات با تجربه‌ای متفاوت در دسترس است. تخصص ما توسعه ربات‌های پیشرفته تلگرام و طراحی وب‌سایت‌های مدرن برای کسب‌وکارهای پیشرو است.
+            </p>
+            
+            <a href="#contact" class="group relative inline-flex items-center gap-3 border border-white/20 bg-white/5 px-8 py-3.5 rounded-full font-bold text-sm hover:bg-white hover:text-black transition-all duration-300">
+                <span class="cta-btn relative z-10" data-key="cta">شروع همکاری</span>
+                <i data-lucide="arrow-right" class="w-4 h-4 relative z-10 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform"></i>
+            </a>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 md:py-32 relative z-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-16 border-b border-white/10 pb-6 fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold inline-block relative after:content-[''] after:absolute after:-bottom-6 rtl:after:right-0 ltr:after:left-0 after:w-2/3 after:h-1 after:bg-white" data-key="services_title">خدمات ما</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <article class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 group fade-up">
+                    <div class="w-14 h-14 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-white/5">
+                        <i data-lucide="monitor" class="w-7 h-7 stroke-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3" data-key="srv_web_title">طراحی وب‌سایت</h3>
+                    <p class="text-gray-400 text-sm leading-7" data-key="srv_web_desc">
+                        طراحی رابط کاربری مدرن (UI/UX) و پیاده‌سازی وب‌سایت‌های واکنش‌گرا و سریع با استفاده از جدیدترین تکنولوژی‌های فرانت‌اند.
+                    </p>
+                </article>
+
+                <article class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 group fade-up" style="transition-delay: 100ms;">
+                     <div class="w-14 h-14 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-white/5">
+                        <i data-lucide="bot" class="w-7 h-7 stroke-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3" data-key="srv_bot_title">ربات تلگرام</h3>
+                    <p class="text-gray-400 text-sm leading-7" data-key="srv_bot_desc">
+                        توسعه تخصصی ربات‌های هوشمند تلگرام، اتصال به درگاه پرداخت، پنل مدیریت پیشرفته و سیستم‌های پاسخگویی خودکار.
+                    </p>
+                </article>
+
+                <article class="bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all duration-300 group fade-up" style="transition-delay: 200ms;">
+                     <div class="w-14 h-14 rounded-xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform border border-white/5">
+                        <i data-lucide="smartphone" class="w-7 h-7 stroke-white"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3" data-key="srv_app_title">وب اپلیکیشن</h3>
+                    <p class="text-gray-400 text-sm leading-7" data-key="srv_app_desc">
+                        ساخت نرم‌افزارهای تحت وب (PWA) مقیاس‌پذیر، امن و یکپارچه با معماری Single Page Application برای کسب‌وکارهای آنلاین.
+                    </p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-24 md:py-32 overflow-hidden relative z-10 bg-[#050505]">
+        <div class="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-center md:items-end fade-up gap-4">
+             <div class="border-b border-white/10 pb-6 w-full md:w-auto">
+                <h2 class="text-3xl md:text-5xl font-bold inline-block relative after:content-[''] after:absolute after:-bottom-6 rtl:after:right-0 ltr:after:left-0 after:w-2/3 after:h-1 after:bg-white" data-key="projects_title">پروژه‌های منتخب</h2>
+            </div>
+            <span class="text-xs text-gray-500 tracking-[0.2em] font-mono" data-key="drag_hint">/// SELECTED WORKS</span>
+        </div>
+
+        <div class="marquee-container fade-up py-8" dir="ltr">
+            <div class="marquee-content" id="marquee-track">
+                <a href="https://telegramdownloader.net" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Telegram Downloader">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
+                        <img src="static/img/telegram-downloader.jpg" alt="Telegram Downloader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="text-center mt-4">
+                        <h4 class="text-base font-bold text-white truncate w-full">Telegram DL</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">Web Tool</p>
+                    </div>
+                </a>
+                
+                <a href="https://t.me/updltelbot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="File to Link Bot">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
+                        <img src="static/img/updltelbot.jpg" alt="File to Link Telegram Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="text-center mt-4">
+                        <h4 class="text-base font-bold text-white truncate w-full">File To Link</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">@updltelbot</p>
+                    </div>
+                </a>
+
+                <a href="https://t.me/VidCompressBot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Video Compressor">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
+                        <img src="static/img/vid-compress.jpg" alt="Video Compressor Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="text-center mt-4">
+                        <h4 class="text-base font-bold text-white truncate w-full">VidCompress</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">@VidCompressBot</p>
+                    </div>
+                </a>
+
+                <a href="https://t.me/Majazinoo_accbot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Virtual Number">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
+                        <img src="static/img/majazino.jpg" alt="Virtual Number Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="text-center mt-4">
+                        <h4 class="text-base font-bold text-white truncate w-full">Majazino</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">@Majazinoo_accbot</p>
+                    </div>
+                </a>
+
+                <a href="https://t.me/instagram_irobot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Instagram Downloader">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
+                        <img src="static/img/instagram-downloader.jpg" alt="Instagram Downloader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="text-center mt-4">
+                        <h4 class="text-base font-bold text-white truncate w-full">Insta DL</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">@instagram_irobot</p>
+                    </div>
+                </a>
+
+                <a href="https://t.me/Twitter_irobot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Twitter Downloader">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
+                        <img src="static/img/twitter-downloader.jpg" alt="Twitter Downloader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="text-center mt-4">
+                        <h4 class="text-base font-bold text-white truncate w-full">Twitter DL</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">@Twitter_irobot</p>
+                    </div>
+                </a>
+
+                <a href="https://t.me/FILMPOKVIPPBOT" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Movie Uploader">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
+                        <img src="static/img/filmpok-uploader.jpg" alt="Movie Uploader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="text-center mt-4">
+                        <h4 class="text-base font-bold text-white truncate w-full">Filmpok</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">@FILMPOKVIPPBOT</p>
+                    </div>
+                </a>
+
+                <a href="https://t.me/Compressor_irobot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Compressor V2">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
+                        <img src="static/img/video-compressor.jpg" alt="Video Compressor V2" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="text-center mt-4">
+                        <h4 class="text-base font-bold text-white truncate w-full">Compressor V2</h4>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">@Compressor_irobot</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="fade-up text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold" data-key="contact_title">ارتباط با ما</h2>
+                <p class="text-gray-400 mt-4 max-w-xl mx-auto leading-7" data-key="contact_desc">برای شروع پروژه بعدی خود با ما در تماس باشید. ما همیشه آنلاین هستیم.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 fade-up text-left" dir="ltr">
+                <a href="mailto:info@blubot.net" class="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 hover:border-white/20 transition-all group">
+                    <div class="p-3 bg-white/5 rounded-lg group-hover:bg-white group-hover:text-black transition-colors">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                    </div>
+                    <div class="overflow-hidden">
+                        <h4 class="text-[10px] text-gray-500 uppercase tracking-widest mb-0.5">Email</h4>
+                        <span class="text-sm font-mono font-bold truncate block">info@blubot.net</span>
+                    </div>
+                </a>
+
+                <a href="tel:+989222303707" class="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 hover:border-white/20 transition-all group" style="transition-delay: 100ms">
+                     <div class="p-3 bg-white/5 rounded-lg group-hover:bg-white group-hover:text-black transition-colors">
+                        <i data-lucide="phone" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] text-gray-500 uppercase tracking-widest mb-0.5" data-key="phone_label">Phone</h4>
+                        <span class="text-sm font-bold font-['Inter']">+98 922 230 3707</span>
+                    </div>
+                </a>
+
+                <a href="https://t.me/blufather" target="_blank" class="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 hover:border-white/20 transition-all group" style="transition-delay: 200ms">
+                    <div class="p-3 bg-white/5 rounded-lg group-hover:bg-white group-hover:text-black transition-colors">
+                        <i data-lucide="send" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] text-gray-500 uppercase tracking-widest mb-0.5">Telegram PV</h4>
+                        <span class="text-sm font-mono font-bold">@blufather</span>
+                    </div>
+                </a>
+
+                <a href="https://t.me/blubots" target="_blank" class="flex items-center gap-4 bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 hover:border-white/20 transition-all group" style="transition-delay: 300ms">
+                    <div class="p-3 bg-white/5 rounded-lg group-hover:bg-white group-hover:text-black transition-colors">
+                        <i data-lucide="users" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] text-gray-500 uppercase tracking-widest mb-0.5">Channel</h4>
+                        <span class="text-sm font-mono font-bold">@blubots</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center border-t border-white/5 mt-10">
+        <p class="text-gray-500 text-xs tracking-wider" dir="ltr">© 2025 Blubot. All rights reserved.</p>
+    </footer>
+
+    <button id="lang-toggle" aria-label="Switch Language" class="fixed bottom-6 left-6 z-50 bg-white text-black w-12 h-12 rounded-full flex items-center justify-center font-black text-sm shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:scale-110 transition-transform cursor-pointer border-2 border-transparent">EN</button>
+
+    <script>
+        const translations = {
+            fa: {
+                direction: 'rtl',
+                font: 'Vazirmatn',
+                toggleText: 'EN',
+                nav: { home: 'خانه', services: 'خدمات', projects: 'پروژه‌ها', contact: 'تماس' },
+                hero: {
+                    title_start: 'بلوبات در حال ظهور است.',
+                    title_end: 'ما استانداردهای دیجیتال را بازتعریف می‌کنیم.',
+                    desc: 'پلتفرم بلوبات با تجربه‌ای متفاوت در دسترس است. تخصص ما توسعه ربات‌های پیشرفته تلگرام و طراحی وب‌سایت‌های مدرن برای کسب‌وکارهای پیشرو است.',
+                    cta: 'شروع همکاری'
+                },
+                services: {
+                    title: 'خدمات ما',
+                    web_title: 'طراحی وب‌سایت',
+                    web_desc: 'طراحی رابط کاربری مدرن (UI/UX) و پیاده‌سازی وب‌سایت‌های واکنش‌گرا و سریع با استفاده از جدیدترین تکنولوژی‌های فرانت‌اند.',
+                    bot_title: 'ربات تلگرام',
+                    bot_desc: 'توسعه تخصصی ربات‌های هوشمند تلگرام، اتصال به درگاه پرداخت، پنل مدیریت پیشرفته و سیستم‌های پاسخگویی خودکار.',
+                    app_title: 'وب اپلیکیشن',
+                    app_desc: 'ساخت نرم‌افزارهای تحت وب (PWA) مقیاس‌پذیر، امن و یکپارچه با معماری Single Page Application برای کسب‌وکارهای آنلاین.'
+                },
+                projects: { title: 'پروژه‌های منتخب', hint: '/// SELECTED WORKS' },
+                contact: { 
+                    title: 'ارتباط با ما', 
+                    phone: 'PHONE',
+                    desc: 'برای شروع پروژه بعدی خود با ما در تماس باشید. ما همیشه آنلاین هستیم.'
+                }
+            },
+            en: {
+                direction: 'ltr',
+                font: 'Inter',
+                toggleText: 'FA',
+                nav: { home: 'Home', services: 'Services', projects: 'Projects', contact: 'Contact' },
+                hero: {
+                    title_start: 'Blubot is Emerging.',
+                    title_end: 'We are Redefining Digital Standards.',
+                    desc: 'The Blubot platform will soon be available with a unique experience. We specialize in advanced Telegram bot development and professional web design solutions.',
+                    cta: 'Get Started'
+                },
+                services: {
+                    title: 'Services',
+                    web_title: 'Web Design',
+                    web_desc: 'Modern UI/UX design and responsive website implementation using the latest technologies.',
+                    bot_title: 'Telegram Bot',
+                    bot_desc: 'Development of smart and advanced Telegram bots for business management and CRM.',
+                    app_title: 'Web Application',
+                    app_desc: 'Building scalable, fast, and secure web applications with single-page architecture.'
+                },
+                projects: { title: 'Selected Projects', hint: '/// RECENT WORKS' },
+                contact: { 
+                    title: 'Contact Us', 
+                    phone: 'Phone',
+                    desc: 'Get in touch to start your next project. We are always online.'
+                }
+            }
+        };
+
+        let currentLang = 'fa';
+
+        function init() {
+            lucide.createIcons();
+            duplicateMarquee();
+            setupObservers();
+            initGalaxy();
+            document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
         }
 
-        // Toggle theme and save preference
-        themeSwitcher.addEventListener('click', () => {
-            const currentTheme = body.dataset.theme;
-            const newTheme = currentTheme === 'day' ? 'night' : 'day';
-            body.dataset.theme = newTheme;
-            localStorage.setItem('theme', newTheme);
-        });
+        function duplicateMarquee() {
+            const track = document.getElementById('marquee-track');
+            const items = track.innerHTML;
+            track.innerHTML = items + items + items; 
+        }
 
-        // Initialize language and theme when the page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            applyInitialTheme();
-            setLanguage('fa'); // Your default language
-        });
+        function initGalaxy() {
+            const canvas = document.getElementById('galaxy-canvas');
+            if(!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width, height, particles = [];
+            let mouse = { x: null, y: null };
 
+            const resize = () => {
+                width = canvas.width = canvas.parentElement.offsetWidth;
+                height = canvas.height = canvas.parentElement.offsetHeight;
+            };
+
+            window.addEventListener('mousemove', e => {
+                const rect = canvas.getBoundingClientRect();
+                mouse.x = e.clientX - rect.left;
+                mouse.y = e.clientY - rect.top;
+            });
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.3;
+                    this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.alpha = Math.random() * 0.5 + 0.2;
+                }
+                update() {
+                    this.x += this.vx; this.y += this.vy;
+                    if(mouse.x){
+                        const dx = mouse.x - this.x, dy = mouse.y - this.y;
+                        const dist = Math.sqrt(dx*dx+dy*dy);
+                        if(dist < 150){
+                            const f = (150-dist)/150;
+                            this.x -= (dx/dist)*f*0.5; this.y -= (dy/dist)*f*0.5;
+                        }
+                    }
+                    if(this.x < 0) this.x=width; if(this.x>width) this.x=0;
+                    if(this.y < 0) this.y=height; if(this.y>height) this.y=0;
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(255,255,255,${this.alpha})`;
+                    ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fill();
+                }
+            }
+
+            const loop = () => {
+                ctx.clearRect(0,0,width,height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+                for(let i=0; i<particles.length; i++){
+                    for(let j=i; j<particles.length; j++){
+                        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
+                        if(Math.sqrt(dx*dx+dy*dy) < 100) {
+                            ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y); ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(loop);
+            };
+
+            window.addEventListener('resize', () => { resize(); particles = Array.from({length:100}, () => new Particle()); });
+            resize(); particles = Array.from({length:100}, () => new Particle()); loop();
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'fa' ? 'en' : 'fa';
+            const t = translations[currentLang];
+            document.documentElement.lang = currentLang;
+            document.body.setAttribute('dir', t.direction);
+            document.body.style.fontFamily = t.font === 'Vazirmatn' ? "'Vazirmatn', sans-serif" : "'Inter', sans-serif";
+            document.getElementById('lang-toggle').textContent = t.toggleText;
+            
+            const setText = (sel, txt) => document.querySelectorAll(sel).forEach(el => el.innerHTML = txt);
+            
+            document.querySelectorAll('.nav-item').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if(key) el.textContent = t.nav[key];
+            });
+
+            const heroTxt = document.getElementById('hero-heading-text');
+            heroTxt.style.animation = 'none';
+            heroTxt.offsetHeight; 
+            heroTxt.textContent = t.hero.title_start;
+            heroTxt.style.animation = 'typewriter 3.5s steps(40) 1s 1 normal both, blinkTextCursor 500ms steps(40) infinite normal';
+
+            setText('[data-key="hero_subtitle"]', t.hero.title_end);
+            setText('[data-key="hero_desc"]', t.hero.desc);
+            setText('[data-key="cta"]', t.hero.cta);
+            setText('[data-key="services_title"]', t.services.title);
+            setText('[data-key="srv_web_title"]', t.services.web_title);
+            setText('[data-key="srv_web_desc"]', t.services.web_desc);
+            setText('[data-key="srv_bot_title"]', t.services.bot_title);
+            setText('[data-key="srv_bot_desc"]', t.services.bot_desc);
+            setText('[data-key="srv_app_title"]', t.services.app_title);
+            setText('[data-key="srv_app_desc"]', t.services.app_desc);
+            setText('[data-key="projects_title"]', t.projects.title);
+            setText('[data-key="drag_hint"]', t.projects.hint);
+            setText('[data-key="contact_title"]', t.contact.title);
+            setText('[data-key="contact_desc"]', t.contact.desc);
+            setText('[data-key="phone_label"]', t.contact.phone);
+        }
+
+        function setupObservers() {
+            const obs = new IntersectionObserver(e => e.forEach(en => en.isIntersecting && en.target.classList.add('visible')), { threshold: 0.1 });
+            document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+        }
+
+        window.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
