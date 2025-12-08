@@ -61,10 +61,11 @@
         ::-webkit-scrollbar-thumb:hover { background: #fff; }
         .fade-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-up.visible { opacity: 1; transform: translateY(0); }
-        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
-        .marquee-content { display: inline-flex; animation: marquee 40s linear infinite; }
-        .marquee-container:hover .marquee-content { animation-play-state: paused; }
-        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        
+        .marquee-container { overflow: hidden; white-space: nowrap; position: relative; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); cursor: grab; touch-action: pan-y; }
+        .marquee-container:active { cursor: grabbing; }
+        .marquee-content { display: inline-flex; will-change: transform; }
+        
         .glass-effect { backdrop-filter: blur(12px); background: rgba(5, 5, 5, 0.7); border-bottom: 1px solid rgba(255,255,255,0.08); }
         .type-container { display: inline-block; overflow: hidden; white-space: nowrap; border-left: 2px solid white; padding-left: 5px; animation: typewriter 3.5s steps(30) 1s 1 normal both, blinkCursor 0.75s step-end infinite; }
         [dir="ltr"] .type-container { border-left: none; border-right: 2px solid white; padding-left: 0; padding-right: 5px; }
@@ -162,112 +163,106 @@
              <div class="border-b border-white/10 pb-6 w-full md:w-auto">
                 <h2 class="text-3xl md:text-5xl font-bold inline-block relative after:content-[''] after:absolute after:-bottom-6 rtl:after:right-0 ltr:after:left-0 after:w-2/3 after:h-1 after:bg-white" data-key="projects_title">پروژه‌های منتخب</h2>
             </div>
-            <span class="text-xs text-gray-500 tracking-[0.2em] font-mono" data-key="drag_hint">/// SELECTED WORKS</span>
+            <span class="text-xs text-gray-500 tracking-[0.2em] font-mono" data-key="drag_hint">/// DRAG TO EXPLORE</span>
         </div>
 
-        <div class="marquee-container fade-up py-8" dir="ltr">
+        <div class="marquee-container fade-up py-8" id="marquee-container" dir="ltr">
             <div class="marquee-content" id="marquee-track">
-                <a href="https://telegramdownloader.net" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Telegram Downloader">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/telegram-downloader.jpg" alt="Telegram Downloader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://telegramdownloader.net" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="Telegram Downloader">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/telegram-downloader.jpg" alt="Telegram Downloader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">Telegram DL</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">Web Tool</p>
                     </div>
                 </a>
                 
-                <a href="https://t.me/updltelbot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="File to Link Bot">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/updltelbot.jpg" alt="File to Link Telegram Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://t.me/updltelbot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="File to Link Bot">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/updltelbot.jpg" alt="File to Link Telegram Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">File To Link</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">@updltelbot</p>
                     </div>
                 </a>
 
-                <a href="https://t.me/VidCompressBot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Video Compressor">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/vid-compress.jpg" alt="Video Compressor Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://t.me/VidCompressBot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="Video Compressor">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/vid-compress.jpg" alt="Video Compressor Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">VidCompress</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">@VidCompressBot</p>
                     </div>
                 </a>
 
-                <a href="https://t.me/Majazinoo_accbot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Virtual Number">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/majazino.jpg" alt="Virtual Number Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://t.me/Majazinoo_accbot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="Virtual Number">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/majazino.jpg" alt="Virtual Number Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">Majazino</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">@Majazinoo_accbot</p>
                     </div>
                 </a>
 
-                <a href="https://t.me/instagram_irobot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Instagram Downloader">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/instagram-downloader.jpg" alt="Instagram Downloader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://t.me/instagram_irobot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="Instagram Downloader">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/instagram-downloader.jpg" alt="Instagram Downloader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">Insta DL</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">@instagram_irobot</p>
                     </div>
                 </a>
 
-                <a href="https://t.me/Twitter_irobot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Twitter Downloader">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/twitter-downloader.jpg" alt="Twitter Downloader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://t.me/Twitter_irobot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="Twitter Downloader">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/twitter-downloader.jpg" alt="Twitter Downloader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">Twitter DL</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">@Twitter_irobot</p>
                     </div>
                 </a>
 
-                <a href="https://t.me/FILMPOKVIPPBOT" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Movie Uploader">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/filmpok-uploader.jpg" alt="Movie Uploader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://t.me/FILMPOKVIPPBOT" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="Movie Uploader">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/filmpok-uploader.jpg" alt="Movie Uploader Bot" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">Filmpok</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">@FILMPOKVIPPBOT</p>
                     </div>
                 </a>
 
-
-                <a href="https://whatsappdownloader.com/" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Whatsapp DL">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/wd.jpg" alt="Whatsapp DL" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://whatsappdownloader.com/" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="Whatsapp DL">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/wd.jpg" alt="Whatsapp DL" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">Whatsapp DL</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">Web Tool</p>
                     </div>
                 </a>
 
-
-
-
-                <a href="https://pinterestvideodownload.net/" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Pinterest Downloader">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden bg-white/5 p-1 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/pd.jpg" alt="Pinterest Downloader" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://pinterestvideodownload.net/" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="Pinterest Downloader">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden bg-white/5 p-1 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/pd.jpg" alt="Pinterest Downloader" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">Pinterest DL</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">Web Tool</p>
                     </div>
                 </a>
 
-
-
-                <a href="https://t.me/Compressor_irobot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline" title="Compressor V2">
-                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative">
-                        <img src="static/img/video-compressor.jpg" alt="Video Compressor V2" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity">
+                <a href="https://t.me/Compressor_irobot" target="_blank" class="flex flex-col items-center mx-6 w-36 group no-underline select-none" draggable="false" title="Compressor V2">
+                    <div class="w-36 h-36 rounded-3xl overflow-hidden border border-white/10 bg-white/5 p-1 group-hover:border-white/30 group-hover:scale-105 transition-all duration-300 relative pointer-events-none">
+                        <img src="static/img/video-compressor.jpg" alt="Video Compressor V2" loading="lazy" width="144" height="144" class="w-full h-full object-cover rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity" draggable="false">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="text-center mt-4 pointer-events-none">
                         <h4 class="text-base font-bold text-white truncate w-full">Compressor V2</h4>
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider">@Compressor_irobot</p>
                     </div>
@@ -355,7 +350,7 @@
                     app_title: 'وب اپلیکیشن',
                     app_desc: 'ساخت نرم‌افزارهای تحت وب (PWA) مقیاس‌پذیر، امن و یکپارچه با معماری Single Page Application برای کسب‌وکارهای آنلاین.'
                 },
-                projects: { title: 'پروژه‌های منتخب', hint: '/// SELECTED WORKS' },
+                projects: { title: 'پروژه‌های منتخب', hint: '/// DRAG TO EXPLORE' },
                 contact: { 
                     title: 'ارتباط با ما', 
                     phone: 'PHONE',
@@ -382,7 +377,7 @@
                     app_title: 'Web Application',
                     app_desc: 'Building scalable, fast, and secure web applications with single-page architecture.'
                 },
-                projects: { title: 'Selected Projects', hint: '/// RECENT WORKS' },
+                projects: { title: 'Selected Projects', hint: '/// DRAG TO EXPLORE' },
                 contact: { 
                     title: 'Contact Us', 
                     phone: 'Phone',
@@ -391,20 +386,93 @@
             }
         };
 
+        class InfiniteMarquee {
+            constructor(containerId, trackId, speed = 1) {
+                this.container = document.getElementById(containerId);
+                this.track = document.getElementById(trackId);
+                if (!this.container || !this.track) return;
+
+                this.speed = speed;
+                this.baseSpeed = speed;
+                this.currentX = 0;
+                this.isDragging = false;
+                this.startX = 0;
+                this.dragX = 0;
+                this.rafId = null;
+
+                this.init();
+            }
+
+            init() {
+                // Duplicate content to ensure seamless loop
+                const content = this.track.innerHTML;
+                this.track.innerHTML = content + content + content + content;
+
+                // Event Listeners
+                this.container.addEventListener('mousedown', this.startDrag.bind(this));
+                this.container.addEventListener('touchstart', this.startDrag.bind(this), { passive: true });
+
+                window.addEventListener('mousemove', this.onDrag.bind(this));
+                window.addEventListener('touchmove', this.onDrag.bind(this), { passive: false });
+
+                window.addEventListener('mouseup', this.stopDrag.bind(this));
+                window.addEventListener('touchend', this.stopDrag.bind(this));
+
+                // Start Animation Loop
+                this.animate();
+            }
+
+            startDrag(e) {
+                this.isDragging = true;
+                this.startX = (e.pageX || e.touches[0].pageX) - this.currentX;
+                this.container.style.cursor = 'grabbing';
+            }
+
+            onDrag(e) {
+                if (!this.isDragging) return;
+                e.preventDefault(); 
+                const x = (e.pageX || e.touches[0].pageX);
+                this.currentX = x - this.startX;
+            }
+
+            stopDrag() {
+                this.isDragging = false;
+                this.container.style.cursor = 'grab';
+            }
+
+            animate() {
+                const trackWidth = this.track.scrollWidth / 4; 
+
+                if (!this.isDragging) {
+                    this.currentX -= this.speed;
+                }
+
+                // Infinite loop logic
+                if (this.currentX <= -trackWidth) {
+                    this.currentX += trackWidth;
+                    this.startX -= trackWidth; 
+                } else if (this.currentX > 0) {
+                    this.currentX -= trackWidth;
+                    this.startX += trackWidth;
+                }
+
+                this.track.style.transform = `translate3d(${this.currentX}px, 0, 0)`;
+                this.rafId = requestAnimationFrame(this.animate.bind(this));
+            }
+        }
+
         let currentLang = 'fa';
 
         function init() {
             lucide.createIcons();
-            duplicateMarquee();
             setupObservers();
             initGalaxy();
-            document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
-        }
+            
+            // Init Marquee
+            // CHANGED SPEED FROM 1 TO 0.3 HERE
+            new InfiniteMarquee('marquee-container', 'marquee-track', 0.3);
 
-        function duplicateMarquee() {
-            const track = document.getElementById('marquee-track');
-            const items = track.innerHTML;
-            track.innerHTML = items + items + items; 
+            document.getElementById('lang-toggle').addEventListener('click', toggleLanguage);
         }
 
         function initGalaxy() {
